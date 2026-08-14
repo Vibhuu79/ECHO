@@ -32,13 +32,17 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({ onComplete }) =>
   return (
     <div
       style={{
-        minHeight: '100vh',
+        minHeight: '100dvh',
+        width: '100%',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'center',
-        padding: '1.5rem',
-        position: 'relative'
+        justifyContent: 'flex-start',
+        padding: '1.25rem 1rem 4rem',
+        position: 'relative',
+        overflowY: 'auto',
+        WebkitOverflowScrolling: 'touch',
+        boxSizing: 'border-box'
       }}
     >
       {/* Echo Brand Header */}

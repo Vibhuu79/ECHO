@@ -53,12 +53,12 @@ export const UsernameStep: React.FC<UsernameStepProps> = ({ onSuccess }) => {
   };
 
   return (
-    <div className="glass-panel" style={{ padding: '2rem', borderRadius: 'var(--radius-lg)', textAlign: 'center', maxWidth: '100%', boxSizing: 'border-box', overflow: 'hidden' }}>
+    <div className="glass-panel" style={{ padding: '1.25rem 1rem', borderRadius: 'var(--radius-lg)', textAlign: 'center', maxWidth: '100%', boxSizing: 'border-box', overflow: 'visible' }}>
       <div
         style={{
-          width: '56px',
-          height: '56px',
-          margin: '0 auto 1.5rem',
+          width: '48px',
+          height: '48px',
+          margin: '0 auto 1rem',
           borderRadius: '50%',
           background: 'linear-gradient(135deg, rgba(225, 0, 255, 0.15), rgba(0, 242, 254, 0.15))',
           display: 'flex',
@@ -67,13 +67,13 @@ export const UsernameStep: React.FC<UsernameStepProps> = ({ onSuccess }) => {
           border: '1px solid rgba(225, 0, 255, 0.3)'
         }}
       >
-        <Sparkles style={{ width: '28px', height: '28px', color: 'var(--accent-pink)' }} />
+        <Sparkles style={{ width: '24px', height: '24px', color: 'var(--accent-pink)' }} />
       </div>
 
-      <h2 style={{ fontSize: '1.4rem', fontWeight: 700, marginBottom: '0.5rem' }}>
+      <h2 style={{ fontSize: '1.3rem', fontWeight: 700, marginBottom: '0.4rem' }}>
         Create your <span className="gradient-text">Identity & Password</span>
       </h2>
-      <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', marginBottom: '1.5rem' }}>
+      <p style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', marginBottom: '1rem' }}>
         Choose a display name and password. You can log in using either Password or OTP next time.
       </p>
 
@@ -81,8 +81,8 @@ export const UsernameStep: React.FC<UsernameStepProps> = ({ onSuccess }) => {
       <div
         className="glass-card"
         style={{
-          padding: '1rem',
-          marginBottom: '1.25rem',
+          padding: '0.75rem 1rem',
+          marginBottom: '1rem',
           textAlign: 'left',
           display: 'flex',
           alignItems: 'center',
