@@ -30,15 +30,18 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(requestLogger);
 
-// API Routes
-app.use('/api/auth', authRoutes);
-app.use('/api/users', userRoutes);
-app.use('/api/discover', discoveryRoutes);
-app.use('/api', waveRoutes);
-app.use('/api', chatRoutes);
-app.use('/api', sparkRoutes);
-app.use('/api', moderationRoutes);
-app.use('/api/compliments', complimentRoutes);
+// API Routes (Supports both /api and /api/v1 prefixes)
+const apiPrefixes = ['/api', '/api/v1'];
+apiPrefixes.forEach((prefix) => {
+  app.use(`${prefix}/auth`, authRoutes);
+  app.use(`${prefix}/users`, userRoutes);
+  app.use(`${prefix}/discover`, discoveryRoutes);
+  app.use(prefix, waveRoutes);
+  app.use(prefix, chatRoutes);
+  app.use(prefix, sparkRoutes);
+  app.use(prefix, moderationRoutes);
+  app.use(`${prefix}/compliments`, complimentRoutes);
+});
 
 
 
