@@ -50,7 +50,7 @@ export class AuthService {
     await EmailService.sendVerificationOtp(email, otp);
 
     return {
-      message: 'OTP sent successfully',
+      message: env.MOCK_OTP ? 'OTP sent successfully (Mock Code: 123456)' : 'OTP sent successfully',
       expiresIn: 300
     };
   }
