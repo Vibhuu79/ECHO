@@ -119,8 +119,13 @@ export class EmailService {
 
       const textFallback = `Your Echo verification code is: ${otp}\n\nThis code will expire in 5 minutes.\n\nIf you did not request this code, please ignore this email.`;
 
+      const senderUser = env.EMAIL_USER ? env.EMAIL_USER.trim() : '';
+      const fromHeader = (env.FROM_EMAIL && !env.FROM_EMAIL.includes('noreply@echoapp.com'))
+        ? env.FROM_EMAIL
+        : `Echo App <${senderUser}>`;
+
       const sendPromise = transporter.sendMail({
-        from: env.FROM_EMAIL,
+        from: fromHeader,
         to,
         subject: `Your Echo Verification Code: ${otp}`,
         text: textFallback,
