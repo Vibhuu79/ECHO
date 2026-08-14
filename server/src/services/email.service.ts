@@ -17,25 +17,36 @@ export class EmailService {
         );
       }
 
-      const isGmail = env.SMTP_HOST === 'smtp.gmail.com' || env.EMAIL_USER?.endsWith('@gmail.com');
+      const cleanUser = env.EMAIL_USER.trim();
+      const cleanPass = env.EMAIL_APP_PASSWORD.replace(/\s+/g, ''); // Remove any spaces from Google App Password
+
+      const isGmail = env.SMTP_HOST === 'smtp.gmail.com' || cleanUser.endsWith('@gmail.com');
 
       this.transporter = nodemailer.createTransport(
         isGmail
           ? {
-              service: 'gmail',
+              host: 'smtp.gmail.com',
+              port: 465,
+              secure: true,
               auth: {
-                user: env.EMAIL_USER,
-                pass: env.EMAIL_APP_PASSWORD
-              }
+                user: cleanUser,
+                pass: cleanPass
+              },
+              connectionTimeout: 10000,
+              greetingTimeout: 10000,
+              socketTimeout: 15000
             }
           : {
               host: env.SMTP_HOST,
               port: env.SMTP_PORT,
               secure: env.SMTP_PORT === 465,
               auth: {
-                user: env.EMAIL_USER,
-                pass: env.EMAIL_APP_PASSWORD
-              }
+                user: cleanUser,
+                pass: cleanPass
+              },
+              connectionTimeout: 10000,
+              greetingTimeout: 10000,
+              socketTimeout: 15000
             }
       );
     }
@@ -110,13 +121,19 @@ export class EmailService {
 
       const textFallback = `Your Echo verification code is: ${otp}\n\nThis code will expire in 5 minutes.\n\nIf you did not request this code, please ignore this email.`;
 
-      const info = await transporter.sendMail({
+      const sendPromise = transporter.sendMail({
         from: env.FROM_EMAIL,
         to,
         subject: `Your Echo Verification Code: ${otp}`,
         text: textFallback,
         html: htmlTemplate
       });
+
+      const timeoutPromise = new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('SMTP connection timed out after 10 seconds. Please check Gmail App Password or network connectivity.')), 10000)
+      );
+
+      const info: any = await Promise.race([sendPromise, timeoutPromise]);
 
       console.log(`📧 [EMAIL_SERVICE] Verification email successfully sent to ${to}. Message ID: ${info.messageId}`);
     } catch (error: any) {
